@@ -11,11 +11,11 @@ class Tirage_ShortCode {
         //Création du formulaire inscription
         $html = '
 <form action="" method="POST"><p>
-    <label for="tirage-formulaire-lastname">Votre Nom :</label><input type="text" name="lastname" id="tirage-formulaire-lastname">
-    <label for="tirage-formulaire-firstname">Votre Prénom :</label><input type="text" name="firstname" id="tirage-formulaire-firstname">
-    <label for="tirage-formulaire-email">Votre E-Mail :</label><input type="email" name="email" id="tirage-formulaire-email">
-    <label for="tirage-formulaire-date">Votre Date de naissance :</label><input type="text" name="date" id="tirage-formulaire-date">
-    <label for="tirage-formulaire-city">Votre Ville :</label><input type="text" name="city" id="tirage-formulaire-city">
+    <label for="tirage-formulaire-lastname">Votre Nom :</label><input type="text" name="lastname" id="tirage-formulaire-lastname" required>
+    <label for="tirage-formulaire-firstname">Votre Prénom :</label><input type="text" name="firstname" id="tirage-formulaire-firstname" required>
+    <label for="tirage-formulaire-email">Votre E-Mail :</label><input type="email" name="email" id="tirage-formulaire-email" required>
+    <label for="tirage-formulaire-date">Votre Date de naissance :</label><input type="text" name="date" id="tirage-formulaire-date" required>
+    <label for="tirage-formulaire-city">Votre Ville :</label><input type="text" name="city" id="tirage-formulaire-city" required>
 </p><input type="submit" value="S\'inscrire"></form>';
         return $html;
     }
