@@ -53,14 +53,13 @@ class TirageExtension_Admin
     {
         //On recupère tout le contenu de la base grace a la function 'getAllContects
         $suscribers = $this->getAllInscrit();
-        //On Vide l'html
-        $html = "";
+        //On Affiche le titre de la page et le shortcode
+        $html = '<h1>' . get_admin_page_title() .'</h1>
+                 <p>Pour afficher la liste des inscrits, utilisez le shortcode suivant : <br><code>[tirage_formulaire][/tirage_formulaire]</code></p>';
 
         //Si il y a des inscrit
         if (count($suscribers) > 0) {
-            $html .= '<h1>' . get_admin_page_title() .'</h1>
-                      <p>Pour afficher la liste des inscrits, utilisez le shortcode suivant : <br><code>[tirage_formulaire][/tirage_formulaire]</code></p>
-                      <h3>Liste des inscrit</h3>
+            $html .= '<h3>Liste des inscrit</h3>
                       <table class="tirage-formulaire-liste" style="border-collapse:collapse"><tbody>';
             //On fait un forEach pour afficher tout les inscrits dans un <td>
             foreach ($suscribers as $suscriber) {
@@ -88,8 +87,9 @@ class TirageExtension_Admin
         $suscribers = $this->getAllInscrit();
         //On Stocke le nombre de subriber
         $nbSucribers = count($suscribers);
-        //On Vide l'html
-        $html = "";
+        //On Affiche le titre de la page et le shortcode
+        $html = "<h1>" . get_admin_page_title() . "</h1>
+                 <p>Pour afficher la liste des inscrits, utilisez le shortcode suivant : <br><code>[tirage_formulaire][/tirage_formulaire]</code></p>";
 
         //Si il y a des inscrit
         if ($nbSucribers > 0) {
@@ -98,9 +98,7 @@ class TirageExtension_Admin
             $suscribersRandom = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}tirage_au_sort ORDER BY RAND()");
 
             //Et On affiche uniquement le premier inscrit recupere (rappel: le première inscrit donné dans un orde alléatoire par la requette sqlr)
-            $html .= "<h1>" . get_admin_page_title() . "</h1>
-                      <p>Pour afficher la liste des inscrits, utilisez le shortcode suivant : <br><code>[tirage_formulaire][/tirage_formulaire]</code></p>
-                      <h2>La personne tiré au sort est :</h2> <table class='tirage-formulaire-liste' style='border-collapse:collapse'><tbody><tr>
+            $html .= "<h2>La personne tiré au sort est :</h2> <table class='tirage-formulaire-liste' style='border-collapse:collapse'><tbody><tr>
                       <td width='150' style='border:1px solid black;'>{$suscribersRandom[0]->last_name}</td>
                       <td width='150' style='border:1px solid black;'>{$suscribersRandom[0]->first_name}</td>
                       <td width='150' style='border:1px solid black;'>{$suscribersRandom[0]->email}</td>
