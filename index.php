@@ -15,11 +15,14 @@ Version: 1.0-BETA
 
 //J'importe mes ficher Php dans class principal
 require_once "tirage_extension.php";
+require_once "tirage_extension_session.php";
 
 class TirageExtension {
     //Function qui ce lance au démarrage de la class 'TirageExtension'
     public function __construct()
     {
+        //On Charge les ficher que ce situe dans la function 'loadFiles'
+        add_action('init', array('TirageExtension', 'loadFiles'));
 
         //On charge la function Install : Qui sert a s'appliqué uniquement quand l'extension s'install
         register_activation_hook(__FILE__, array('TirageExtension', 'install'));
@@ -30,9 +33,23 @@ class TirageExtension {
         //On charge la function 'saveForm'
         add_action('wp_loaded', array($this, 'saveForm'), 1);
 
+        //On charge la function 'checkInfo'
+        add_action('wp_loaded', array($this, 'checkInfo'), 2);
+
         //Lancement de la class 'Tirage_ShortCode'
         new Tirage_ShortCode();
 
+    }
+
+    public static function loadFiles()
+    {
+        //On Charge le ficher style.css
+        wp_register_style('TirageExtension', plugins_url('style.css', __FILE__));
+        wp_enqueue_style('TirageExtension');
+
+        //On Charge le ficher main.js
+        wp_register_script('TirageExtension', plugins_url('main.js', __FILE__));
+        wp_enqueue_script('TirageExtension');
     }
 
 
@@ -62,7 +79,7 @@ class TirageExtension {
         ) {
 
             //Recuperation de class pour les notifications
-            //$exVoiture_Session = new ExVoiture_Session();
+            $tirageExtension_Session = new TirageExtension_Session();
 
             //On Met tout ce qu'on a besoin dans des variable
             $lastname = $_POST['lastname'];
@@ -93,18 +110,39 @@ class TirageExtension {
 
                 //Si la requette nous renvoie 'false' alors il y a une erreur
                 if ($result === false) {
-                    //$exVoiture_Session->createMessage("error", "Il y a une erreur, réseillez plus tarrd");
-                    die(var_dump($result));
+                    //On génére une notification grace a Class 'TirageExtension_Session'
+                    $tirageExtension_Session->createMessage("error", "Il y a une erreur, réseillez plus tarrd");
+
                 //Sinon il s'agit d'un succes dans l'insert de donné dans la base
                 } else {
-                    //$exVoiture_Session->createMessage("success", "Ajout de votre voiture effectuez.");
-                    die("Success");
+                    //On génére une notification grace a Class 'TirageExtension_Session'
+                    $tirageExtension_Session->createMessage("success", "Votre inscription est un véritable succes.");
                 }
             } else {
-                //$exVoiture_Session->createMessage("error", "Votre plaque est déjà connue de nos service.");
+                //On génére une notification grace a Class 'TirageExtension_Session'
+                $tirageExtension_Session->createMessage("error", "Votre Email est déjà connue de nos service.");
             }
 
         }
+    }
+
+    public function checkInfo()
+    {
+        //On recupère la class 'TirageExtension_Session'
+        $tirageExtension_Session = new TirageExtension_Session();
+
+        //recupère le message de la class 'TirageExtension_Session'
+        $message = $tirageExtension_Session->getMessage();
+
+        if ($message !== false) {
+            echo ("
+                <p class='tirage-ex-info " . $message["type"] . "'>
+                    " . $message["message"] . "
+                </p>
+            ");
+        }
+
+        $message = $tirageExtension_Session->destroy();
     }
 
 }
