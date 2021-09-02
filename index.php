@@ -9,13 +9,10 @@ Description: Extension WordPress, L'Eval d'Extension
 Version: 1.0-BETA
 */
 
-//ShortCode : <p>[tirage_formulaire][/tirage_formulaire]</p>
-
-
-
 //J'importe mes ficher Php dans class principal
 require_once "tirage_extension.php";
 require_once "tirage_extension_session.php";
+require_once "tirage_extension_admin.php";
 
 class TirageExtension {
     //Function qui ce lance au démarrage de la class 'TirageExtension'
@@ -38,6 +35,9 @@ class TirageExtension {
 
         //Lancement de la class 'Tirage_ShortCode'
         new Tirage_ShortCode();
+
+        //Lancement de la class 'TirageExtension_Admin'
+        new TirageExtension_Admin;
 
     }
 
